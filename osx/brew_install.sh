@@ -1,12 +1,14 @@
 #!/bin/bash
 
-file=brew_installed
+awk 'NR==FNR{a[$0];next} !($0 in a)' `brew list | echo` brew_installed > install.tmp
 
 brew update
 brew upgrade
 
-cat brew_installed | while read line ; do
+cat install | while read line ; do
     brew install $line
 done
+
+rm *.tmp
 
 brew upgrade
