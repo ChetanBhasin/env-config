@@ -15,14 +15,25 @@ Plug 'justinmk/vim-sneak'
 
 " GUI enhancements
 Plug 'itchyny/lightline.vim'
-Plug 'w0rp/ale'
 Plug 'machakann/vim-highlightedyank'
 Plug 'andymass/vim-matchup'
+Plug 'mhartington/oceanic-next'
+Plug 'arcticicestudio/nord-vim'
+Plug 'scrooloose/nerdtree'
+Plug 'airblade/vim-rooter'
+Plug 'junegunn/fzf.vim'
 
 " Fuzzy finder
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+if has('nvim')
+  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/defx.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endi
 
 
 " Syntactic language support
@@ -30,11 +41,17 @@ Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
 "Plug 'fatih/vim-go'
 Plug 'dag/vim-fish'
+Plug 'w0rp/ale'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+if executable("scalac")
+  Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+endif
 
 call plug#end()
 
+let g:ale_sign_column_always = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -132,7 +149,8 @@ endfunction
 " Enable syntax highlighting
 syntax enable 
 
-colorscheme desert
+" colorscheme desert
+colorscheme nord
 set background=dark
 
 " Set extra options when running in GUI mode
@@ -143,28 +161,87 @@ if has("gui_running")
     set guitablabel=%M\ %t
 endif
 
+let g:airline_theme='nord'
+let g:nord_italic = 1
+let g:nord_underline = 1
+let g:nord_italic_comments = 1
+let g:nord_uniform_status_lines = 1
+let g:nord_comment_brightness = 12
+let g:nord_uniform_diff_background = 1
+let g:nord_cursor_line_number_background = 1
+
+" If terminal colours enabled, use them
+if (has("termguicolors"))
+ set termguicolors
+endif
+
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
+
+" Use deoplete
+let g:deoplete#enable_at_startup = 1
+"set rtp+=~\.vim\dein\repos\github.com\Shougo\deoplete.nvim
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
+" rust
+let g:rustfmt_autosave = 1
+let g:racer_experimental_completer = 1
+au FileType rust set makeprg=cargo\ build\ -j\ 4
+au FileType rust nmap <leader>t :!cargo test<cr>
+au FileType rust nmap <leader>r :!RUST_BACKTRACE=1 cargo run<cr>
+au FileType rust nmap <leader>c :term cargo build -j 4<cr>
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
+let g:ale_rust_cargo_check_all_targets = 1
+let g:ale_rust_cargo_use_check = 1
+
+let g:ale_echo_cursor = 1
+let g:ale_echo_msg_error_str = 'Error'
+let g:ale_echo_msg_format = '%code: %%s'
+let g:ale_echo_msg_warning_str = 'Warning'
+let g:ale_enabled = 1
+let g:ale_fix_on_save = 0
+let g:ale_fixers = {}
+let g:ale_keep_list_window_open = 0
+let g:ale_lint_delay = 200
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 'always'
+let g:ale_linter_aliases = {}
+let g:ale_linters = {}
+let g:ale_open_list = 0
+let g:ale_set_highlights = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:ale_set_signs = 1
+let g:ale_sign_column_always = 0
+let g:ale_sign_error = '>>'
+let g:ale_sign_offset = 1000000
+let g:ale_sign_warning = '--'
+let g:ale_statusline_format = ['%d error(s)', '%d warning(s)', 'OK']
+let g:ale_warn_about_trailing_whitespace = 1
+
 " Linter
 " only lint on save
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_save = 0
-let g:ale_lint_on_enter = 0
-let g:ale_virtualtext_cursor = 1
-let g:ale_rust_rls_config = {
-	\ 'rust': {
-		\ 'all_targets': 1,
-		\ 'build_on_save': 1,
-		\ 'clippy_preference': 'on'
-	\ }
-	\ }
-let g:ale_rust_rls_toolchain = ''
-let g:ale_linters = {'rust': ['rls']}
+"let g:ale_lint_on_text_changed = 'never'
+"let g:ale_lint_on_insert_leave = 1
+"let g:ale_lint_on_save = 0
+"let g:ale_lint_on_enter = 0
+"let g:ale_virtualtext_cursor = 1
+"let g:ale_rust_rls_config = {
+"	\ 'rust': {
+"		\ 'all_targets': 1,
+"		\ 'build_on_save': 1,
+"		\ 'clippy_preference': 'off'
+"	\ }
+"	\ }
+"let g:ale_rust_rls_toolchain = ''
+"let g:ale_linters = {'rust': ['rls']}
 highlight link ALEWarningSign Todo
 highlight link ALEErrorSign WarningMsg
 highlight link ALEVirtualTextWarning Todo
