@@ -1,13 +1,21 @@
 #!/bin/bash
 
-sh osx/install_osx.sh
+# Install Basic OS X Tools
+pushd osx
+sh install_osx.sh
+popd
 
+# Install Rust and the tooling
 rustup install stable
+
+#Install Powerline
 pushd powerline-fonts && ./install.sh && popd
-# Install Oh My Zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-upgrade_oh_my_zsh
 
+# Setup iTerm 2 configuration
 sudo cp conf/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
-
 defaults read com.googlecode.iterm2
+
+# Setup Neovim
+sudo mkdir -p ~/.conf/nvim
+sudo cp conf/nvim_init.vim ~/.conf/nvim/init.vim
+

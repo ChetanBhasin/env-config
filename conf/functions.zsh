@@ -1,3 +1,53 @@
+# Custom variables -------------------------
+
+eval "$(starship init zsh)"
+
+set -o vi
+
+alias bz="/usr/local/bin/bazelisk"
+alias lsl="exa -lLsSuUhHa"
+alias ls="exa"
+alias l="ls -lah"
+alias vim="nvim"
+alias dc="docker-compose"
+alias gitchange="git add . && git commit --amend --no-edit"
+alias gitrchange="gitchange && git push -f"
+alias update="brew update && brew upgrade && brew cask upgrade && rustup update"
+alias cleanup="brew cleanup && brew doctor"
+alias cleanupdate="update && cleanup"
+alias ec="exercism"
+
+export GOPATH="/Users/$USERNAME/Projects/"
+
+#fortune | lolcat
+
+export PATH="/Users/$USERNAME/.cargo/bin:$PATH"
+export PATH="/Users/$USERNAME/Projects/auth-fn/sessionmanager-bundle/bin:$PATH"
+export PATH="$GOPATH/bin:$PATH"
+
+# Fuchsia paths
+export PATH="/Users/chetan.bhasin/Projects/fuchsia/fuchsia/.jiri_root/bin:$PATH"
+
+# Python3 local
+export PATH="/Users/chetan.bhasin/Library/Python/3.7/bin:$PATH"
+
+# Haskell Stack binaries path
+export PATH=$PATH:~/.local/bin
+
+# Use TheFuck for previous command correction
+eval $(thefuck --alias)
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH="/usr/local/sbin:$PATH"
+export ENVIRONMENT=DEBUG
+export TF_VAR_usernam=chetan.bhasin
+
+# added by travis gem
+[ -f /Users/$USERNAME/.travis/travis.sh ] && source /Users/$USERNAME/.travis/travis.sh
+
+# End Custom Variables ---------------------------------
+
 ## Kuberentes (kubectl) functions --------------
 
 # Finds pods using a search term
