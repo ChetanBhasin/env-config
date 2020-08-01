@@ -7,6 +7,7 @@ popd
 
 # Install Rust and the tooling
 rustup install stable
+sh rust/setup.sh
 
 #Install Powerline
 pushd powerline-fonts && ./install.sh && popd
