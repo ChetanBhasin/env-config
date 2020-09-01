@@ -23,3 +23,7 @@ defaults read com.googlecode.iterm2
 mkdir -p ~/.conf/nvim
 cp conf/nvim_init.vim ~/.conf/nvim/init.vim
 
+# Setup Hammerspoon
+mkdir -p ~/.hammerspoon
+cp conf/hammerspoon.init ~/.hammerspoon.init.lua
+
