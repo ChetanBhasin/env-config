@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cargo install bat exa fd procs sd dust ripgrep tokei ytop tealdeer
+cargo install bat exa fd-find procs sd dust ripgrep tokei ytop tealdeer
