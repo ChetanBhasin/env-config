@@ -2,6 +2,10 @@
 
 set -o vi 
 
+
+cp ./zshrc ~/.zshrc
+cp ./sources.zsh ~/.sources
+
 # Install Basic OS X Tools
 pushd osx
 sh install_osx.sh
